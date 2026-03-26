@@ -1,0 +1,175 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPSA E-Complaint System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="logo">
+                <div class="logo-crest">U</div>
+                <div class="logo-text">UPSA <span>E-Complaint</span></div>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="#highlights">Highlights</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="/login">Student Login</a>
+                <a href="/admin-login">Admin</a>
+                <a href="/register" class="btn btn-gold btn-sm">Register</a>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Your Voice <span class="gold">Matters</span> at UPSA</h1>
+                <p>A transparent, efficient, and accountable complaint management platform. Submit your complaints, track progress in real-time, and see results.</p>
+                <div class="hero-buttons">
+                    <a href="/register" class="btn btn-gold">Get Started</a>
+                    <a href="#highlights" class="btn btn-outline-white">View Resolved Issues</a>
+                </div>
+            </div>
+            <div class="hero-illustration">
+                <div class="hero-card">
+                    <div class="card-header">
+                        <div class="dot red"></div>
+                        <div class="dot yellow"></div>
+                        <div class="dot green"></div>
+                    </div>
+                    <div class="mini-stat"><span class="label">Total Complaints</span><span class="value" id="heroTotal">—</span></div>
+                    <div class="mini-stat"><span class="label">Resolved</span><span class="value" id="heroResolved">—</span></div>
+                    <div class="mini-stat"><span class="label">Resolution Rate</span><span class="value" id="heroRate">—</span></div>
+                    <div class="mini-stat"><span class="label">Avg. Resolution</span><span class="value" id="heroAvg">—</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS BAR -->
+    <section class="stats-bar">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-icon">🎓</div>
+                    <div class="stat-number" id="statStudents">—</div>
+                    <div class="stat-label">Registered Students</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">📝</div>
+                    <div class="stat-number" id="statTotal">—</div>
+                    <div class="stat-label">Complaints Filed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-number" id="statResolved">—</div>
+                    <div class="stat-label">Issues Resolved</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">⚡</div>
+                    <div class="stat-number" id="statRate">—</div>
+                    <div class="stat-label">Resolution Rate</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMPLAINT HIGHLIGHTS -->
+    <section class="section" id="highlights">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge">Transparency</span>
+                <h2>Complaints Highlight</h2>
+                <p>See how UPSA is actively addressing student concerns. These are anonymized resolved complaints for public awareness.</p>
+            </div>
+            <div class="highlights-grid" id="highlightsGrid">
+                <div class="spinner"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="section section-alt" id="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge">Process</span>
+                <h2>How It Works</h2>
+                <p>Submitting and tracking your complaint is simple and straightforward.</p>
+            </div>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <h3>Register & Login</h3>
+                    <p>Create your account using your UPSA student ID and institutional email to verify your identity.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <h3>Submit Complaint</h3>
+                    <p>Select a category, describe your issue in detail, and submit. You'll receive a unique reference number.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <h3>Track & Resolve</h3>
+                    <p>Monitor your complaint status in real-time through your dashboard and receive updates as it progresses.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CATEGORIES -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge">Categories</span>
+                <h2>What Can You Report?</h2>
+                <p>Our system covers a wide range of complaint categories to ensure every concern is addressed.</p>
+            </div>
+            <div class="highlights-grid" id="categoriesGrid"></div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h4>UPSA E-Complaint System</h4>
+                    <p>University of Professional Studies, Accra. Enhancing transparency, accountability, and student satisfaction through efficient complaint management.</p>
+                </div>
+                <div>
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/login">Student Portal</a></li>
+                        <li><a href="/admin-login">Admin Portal</a></li>
+                        <li><a href="/register">Register</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Contact</h4>
+                    <ul>
+                        <li>📍 P.O. Box LG 149, Legon, Accra</li>
+                        <li>📞 +233 (0) 302 500 813</li>
+                        <li>✉️ complaints@upsa.edu.gh</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 University of Professional Studies, Accra. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

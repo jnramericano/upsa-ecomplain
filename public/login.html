@@ -1,0 +1,45 @@
+<!-- public/login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login — UPSA E-Complaint</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="auth-page">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="logo-icon">🎓</div>
+                <h1>Student Login</h1>
+                <p>Enter your credentials to access your complaint dashboard</p>
+            </div>
+
+            <div class="alert alert-error" id="alertError"></div>
+            <div class="alert alert-success" id="alertSuccess"></div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Student ID <span class="required">*</span></label>
+                    <input type="text" id="studentId" placeholder="e.g. 10012001" maxlength="8" required>
+                </div>
+                <div class="form-group">
+                    <label>Password <span class="required">*</span></label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" id="loginBtn">
+                    Sign In
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Don't have an account? <a href="/register">Register here</a></p>
+                <p style="margin-top:8px"><a href="/">← Back to Home</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/auth.js"></script>
+</body>
+</html>

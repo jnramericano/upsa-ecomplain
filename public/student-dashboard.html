@@ -1,0 +1,185 @@
+<!-- public/student-dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard — UPSA E-Complaint</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-sm">UPSA <span>E-Complaint</span></div>
+            </div>
+            <div class="user-info">
+                <div class="user-name" id="sidebarName">Student</div>
+                <div class="user-role" id="sidebarProgram">Programme</div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="active" data-page="overview"><span class="nav-icon">📊</span> Overview</a>
+                <a href="#" data-page="new-complaint"><span class="nav-icon">✏️</span> New Complaint</a>
+                <a href="#" data-page="my-complaints"><span class="nav-icon">📋</span> My Complaints</a>
+                <a href="#" data-page="notifications"><span class="nav-icon">🔔</span> Notifications</a>
+                <div class="nav-divider"></div>
+                <a href="#" id="logoutBtn"><span class="nav-icon">🚪</span> Logout</a>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <div class="topbar">
+                <div style="display:flex;align-items:center;gap:12px">
+                    <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+                    <div class="page-title">
+                        <h2 id="pageTitle">Overview</h2>
+                        <p id="pageSubtitle">Welcome to your complaint dashboard</p>
+                    </div>
+                </div>
+                <div class="topbar-actions">
+                    <button class="notif-btn" id="notifBtn">🔔<span class="badge-count" id="notifCount" style="display:none">0</span></button>
+                    <div class="user-avatar" id="userAvatar">S</div>
+                </div>
+            </div>
+
+            <div class="content-area">
+                <!-- OVERVIEW PAGE -->
+                <div class="page-content" id="page-overview">
+                    <div class="dash-stats" id="dashStats"></div>
+                    <div class="card">
+                        <div class="card-header"><h3>Recent Complaints</h3></div>
+                        <div class="card-body no-pad">
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr><th>Reference</th><th>Subject</th><th>Category</th><th>Status</th><th>Date</th></tr>
+                                    </thead>
+                                    <tbody id="recentComplaints">
+                                        <tr><td colspan="5" class="loading-text"><div class="spinner"></div></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NEW COMPLAINT PAGE -->
+                <div class="page-content" id="page-new-complaint" style="display:none">
+                    <div class="card">
+                        <div class="card-header"><h3>📝 Submit a New Complaint</h3></div>
+                        <div class="card-body">
+                            <div class="alert alert-error" id="complaintError"></div>
+                            <div class="alert alert-success" id="complaintSuccess"></div>
+                            <form id="complaintForm">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Category <span class="required">*</span></label>
+                                        <select id="complaintCategory" required>
+                                            <option value="">Select a category</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Priority</label>
+                                        <select id="complaintPriority">
+                                            <option value="low">Low</option>
+                                            <option value="medium" selected>Medium</option>
+                                            <option value="high">High</option>
+                                            <option value="urgent">Urgent</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Subject <span class="required">*</span></label>
+                                    <input type="text" id="complaintSubject" placeholder="Brief title for your complaint" maxlength="200" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Description <span class="required">*</span></label>
+                                    <textarea id="complaintDescription" rows="6" placeholder="Provide detailed information about your complaint. Include dates, locations, and any relevant details..." required></textarea>
+                                    <div class="input-hint">Minimum 20 characters. Be as detailed as possible.</div>
+                                </div>
+                                <div class="form-group">
+                                    <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+                                        <input type="checkbox" id="complaintAnonymous" style="width:auto">
+                                        Submit anonymously (your identity will be hidden from public view)
+                                    </label>
+                                </div>
+                                <button type="submit" class="btn btn-primary" id="submitComplaintBtn">Submit Complaint</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MY COMPLAINTS PAGE -->
+                <div class="page-content" id="page-my-complaints" style="display:none">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>My Complaints</h3>
+                            <div class="filters">
+                                <select id="filterStatus">
+                                    <option value="">All Status</option>
+                                    <option value="submitted">Submitted</option>
+                                    <option value="under_review">Under Review</option>
+                                    <option value="in_progress">In Progress</option>
+                                    <option value="resolved">Resolved</option>
+                                    <option value="rejected">Rejected</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-body no-pad">
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr><th>Reference</th><th>Subject</th><th>Category</th><th>Priority</th><th>Status</th><th>Date</th><th>Action</th></tr>
+                                    </thead>
+                                    <tbody id="myComplaintsTable">
+                                        <tr><td colspan="7" class="loading-text"><div class="spinner"></div></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COMPLAINT DETAIL PAGE -->
+                <div class="page-content" id="page-complaint-detail" style="display:none">
+                    <div id="complaintDetailContent"></div>
+                </div>
+
+                <!-- NOTIFICATIONS PAGE -->
+                <div class="page-content" id="page-notifications" style="display:none">
+                    <div class="card">
+                        <div class="card-header"><h3>🔔 Notifications</h3></div>
+                        <div class="card-body" id="notificationsContainer">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RESPONSE MODAL -->
+    <div class="modal-overlay" id="responseModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Add Response</h3>
+                <button class="modal-close" onclick="closeModal('responseModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Your Response</label>
+                    <textarea id="responseMessage" rows="4" placeholder="Type your response..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline btn-sm" onclick="closeModal('responseModal')">Cancel</button>
+                <button class="btn btn-primary btn-sm" id="sendResponseBtn">Send Response</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/student.js"></script>
+</body>
+</html>
