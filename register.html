@@ -1,0 +1,98 @@
+<!-- public/register.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register — UPSA E-Complaint</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="auth-page">
+        <div class="auth-card" style="max-width:560px">
+            <div class="auth-header">
+                <div class="logo-icon">📝</div>
+                <h1>Student Registration</h1>
+                <p>Create your account to start submitting and tracking complaints</p>
+            </div>
+
+            <div class="alert alert-error" id="alertError"></div>
+            <div class="alert alert-success" id="alertSuccess"></div>
+
+            <form id="registerForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>First Name <span class="required">*</span></label>
+                        <input type="text" id="firstName" placeholder="Kwame" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name <span class="required">*</span></label>
+                        <input type="text" id="lastName" placeholder="Asante" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Student ID <span class="required">*</span></label>
+                        <input type="text" id="studentId" placeholder="10012001" maxlength="8" required>
+                        <div class="input-hint">8-digit UPSA student ID</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Level</label>
+                        <select id="level">
+                            <option value="100">Level 100</option>
+                            <option value="200">Level 200</option>
+                            <option value="300">Level 300</option>
+                            <option value="400">Level 400</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>UPSA Email <span class="required">*</span></label>
+                    <input type="email" id="email" placeholder="name@st.upsa.edu.gh" required>
+                    <div class="input-hint">Must be your @st.upsa.edu.gh email</div>
+                </div>
+                <div class="form-group">
+                    <label>Programme</label>
+                    <select id="program">
+                        <option value="">Select your programme</option>
+                        <option>BSc Accounting</option>
+                        <option>BSc Banking & Finance</option>
+                        <option>BSc Marketing</option>
+                        <option>BSc Management</option>
+                        <option>BSc Information Technology</option>
+                        <option>BSc Economics</option>
+                        <option>BSc Human Resource Management</option>
+                        <option>BSc Public Administration</option>
+                        <option>BA Communication Studies</option>
+                        <option>LLB Law</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="phone" placeholder="0241234567">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Password <span class="required">*</span></label>
+                        <input type="password" id="password" placeholder="Min. 8 characters" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password <span class="required">*</span></label>
+                        <input type="password" id="confirmPassword" placeholder="Re-enter password" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" id="registerBtn">
+                    Create Account
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Already have an account? <a href="/login">Login here</a></p>
+                <p style="margin-top:8px"><a href="/">← Back to Home</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/auth.js"></script>
+</body>
+</html>

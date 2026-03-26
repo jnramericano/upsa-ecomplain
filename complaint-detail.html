@@ -1,0 +1,1039 @@
+<!-- public/complaint-detail.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint Detail — UPSA E-Complaint</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .detail-page {
+            min-height: 100vh;
+            background: var(--bg);
+        }
+
+        .detail-navbar {
+            background: var(--primary);
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .detail-navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 65px;
+        }
+
+        .detail-navbar .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--white);
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+
+        .detail-navbar .logo .logo-crest {
+            width: 38px;
+            height: 38px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 900;
+            color: var(--primary-dark);
+        }
+
+        .detail-navbar .logo .logo-text span {
+            color: var(--gold);
+        }
+
+        .detail-navbar .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .detail-navbar .nav-actions a {
+            color: rgba(255,255,255,0.8);
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .detail-navbar .nav-actions a:hover {
+            background: rgba(255,255,255,0.1);
+            color: var(--white);
+        }
+
+        .detail-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+            transition: var(--transition);
+        }
+
+        .back-link:hover {
+            color: var(--primary-light);
+            gap: 12px;
+        }
+
+        .detail-header-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            border: 1px solid var(--gray-lighter);
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        .detail-header-top {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            padding: 28px 32px;
+        }
+
+        .detail-header-top .ref-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .detail-header-top .ref-number {
+            font-size: 0.85rem;
+            color: var(--gold);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .detail-header-top .badge-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .detail-header-top h1 {
+            font-size: 1.6rem;
+            line-height: 1.3;
+            margin: 0;
+        }
+
+        .detail-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            padding: 24px 32px;
+            background: var(--light);
+            border-bottom: 1px solid var(--gray-lighter);
+        }
+
+        .detail-meta .meta-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .detail-meta .meta-item .meta-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gray);
+            margin-bottom: 4px;
+        }
+
+        .detail-meta .meta-item .meta-value {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .detail-description {
+            padding: 28px 32px;
+        }
+
+        .detail-description .desc-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gray);
+            margin-bottom: 10px;
+        }
+
+        .detail-description .desc-text {
+            font-size: 1rem;
+            color: var(--dark-light);
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+
+        .admin-feedback-box {
+            margin: 0 32px 28px;
+            background: #D1FAE5;
+            border: 1px solid #A7F3D0;
+            border-radius: var(--radius-sm);
+            padding: 18px 20px;
+        }
+
+        .admin-feedback-box .fb-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #065F46;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .admin-feedback-box .fb-text {
+            color: #064E3B;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Progress Tracker (horizontal on desktop) */
+        .detail-progress {
+            background: var(--white);
+            border-radius: var(--radius);
+            border: 1px solid var(--gray-lighter);
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+
+        .detail-progress h3 {
+            font-size: 1.1rem;
+            margin-bottom: 24px;
+            color: var(--dark);
+        }
+
+        .tracker {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .tracker::before {
+            content: '';
+            position: absolute;
+            top: 24px;
+            left: 50px;
+            right: 50px;
+            height: 4px;
+            background: var(--gray-lighter);
+            border-radius: 4px;
+            z-index: 0;
+        }
+
+        .tracker .tracker-step {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            flex: 1;
+        }
+
+        .tracker .tracker-step .circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gray-lighter);
+            color: var(--gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border: 3px solid var(--white);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: var(--transition);
+        }
+
+        .tracker .tracker-step.completed .circle {
+            background: var(--success);
+            color: var(--white);
+        }
+
+        .tracker .tracker-step.active .circle {
+            background: var(--primary);
+            color: var(--white);
+            box-shadow: 0 0 0 4px rgba(0,51,102,0.2);
+        }
+
+        .tracker .tracker-step.rejected .circle {
+            background: var(--danger);
+            color: var(--white);
+        }
+
+        .tracker .tracker-step .step-name {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--gray);
+            text-transform: capitalize;
+        }
+
+        .tracker .tracker-step.completed .step-name {
+            color: var(--success);
+        }
+
+        .tracker .tracker-step.active .step-name {
+            color: var(--primary);
+        }
+
+        .tracker .tracker-step.rejected .step-name {
+            color: var(--danger);
+        }
+
+        .tracker .tracker-step .step-date {
+            font-size: 0.7rem;
+            color: var(--gray-light);
+            margin-top: 2px;
+        }
+
+        /* Responses Section */
+        .responses-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            border: 1px solid var(--gray-lighter);
+            margin-bottom: 24px;
+        }
+
+        .responses-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 28px;
+            border-bottom: 1px solid var(--gray-lighter);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .responses-header h3 {
+            font-size: 1.1rem;
+        }
+
+        .responses-body {
+            padding: 28px;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 32px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--gray-lighter);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 28px;
+            padding-bottom: 28px;
+            border-bottom: 1px solid var(--light);
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .timeline-item .timeline-dot {
+            position: absolute;
+            left: -25px;
+            top: 4px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            color: var(--white);
+            border: 3px solid var(--white);
+            box-shadow: 0 0 0 2px var(--gray-lighter);
+        }
+
+        .timeline-item .timeline-dot.admin-dot {
+            background: var(--primary);
+        }
+
+        .timeline-item .timeline-dot.student-dot {
+            background: var(--gold-dark);
+        }
+
+        .timeline-item .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .timeline-item .timeline-header .responder {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--dark);
+        }
+
+        .timeline-item .timeline-header .responder-tag {
+            font-size: 0.7rem;
+            padding: 2px 10px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .timeline-item .timeline-header .tag-admin {
+            background: rgba(0,51,102,0.1);
+            color: var(--primary);
+        }
+
+        .timeline-item .timeline-header .tag-student {
+            background: rgba(200,169,81,0.15);
+            color: var(--gold-dark);
+        }
+
+        .timeline-item .timeline-header .resp-time {
+            font-size: 0.8rem;
+            color: var(--gray-light);
+        }
+
+        .timeline-item .timeline-message {
+            background: var(--light);
+            padding: 16px 20px;
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            color: var(--dark-light);
+            line-height: 1.7;
+            white-space: pre-wrap;
+        }
+
+        /* Add Response Form */
+        .add-response-form {
+            border-top: 1px solid var(--gray-lighter);
+            padding: 24px 28px;
+        }
+
+        .add-response-form h4 {
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+            color: var(--dark);
+        }
+
+        .add-response-form textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--gray-lighter);
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 100px;
+            transition: var(--transition);
+        }
+
+        .add-response-form textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0,51,102,0.1);
+        }
+
+        .add-response-form .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 12px;
+        }
+
+        /* Loading & Error States */
+        .detail-loading {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .detail-error {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .detail-error .error-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+        }
+
+        .detail-error h2 {
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .detail-error p {
+            color: var(--gray);
+            margin-bottom: 24px;
+        }
+
+        /* Status-specific header colors */
+        .header-submitted { background: linear-gradient(135deg, #1E40AF, #1E3A8A) !important; }
+        .header-under_review { background: linear-gradient(135deg, #92400E, #78350F) !important; }
+        .header-in_progress { background: linear-gradient(135deg, #5B21B6, #4C1D95) !important; }
+        .header-resolved { background: linear-gradient(135deg, #065F46, #064E3B) !important; }
+        .header-rejected { background: linear-gradient(135deg, #991B1B, #7F1D1D) !important; }
+
+        @media (max-width: 768px) {
+            .detail-container {
+                padding: 20px 16px;
+            }
+
+            .detail-header-top {
+                padding: 20px;
+            }
+
+            .detail-header-top h1 {
+                font-size: 1.25rem;
+            }
+
+            .detail-meta {
+                padding: 16px 20px;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .detail-description {
+                padding: 20px;
+            }
+
+            .admin-feedback-box {
+                margin: 0 20px 20px;
+            }
+
+            .detail-progress {
+                padding: 20px;
+            }
+
+            .tracker {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .tracker::before {
+                left: 24px;
+                top: 0;
+                bottom: 0;
+                width: 3px;
+                height: auto;
+                right: auto;
+            }
+
+            .tracker .tracker-step {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                text-align: left;
+            }
+
+            .tracker .tracker-step .circle {
+                margin: 0;
+                width: 44px;
+                height: 44px;
+                min-width: 44px;
+            }
+
+            .responses-header {
+                padding: 16px 20px;
+            }
+
+            .responses-body {
+                padding: 20px;
+            }
+
+            .timeline {
+                padding-left: 28px;
+            }
+
+            .add-response-form {
+                padding: 16px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="detail-page">
+
+        <!-- TOP NAV -->
+        <nav class="detail-navbar">
+            <div class="container">
+                <a href="/" class="logo">
+                    <div class="logo-crest">U</div>
+                    <div class="logo-text">UPSA <span>E-Complaint</span></div>
+                </a>
+                <div class="nav-actions">
+                    <a href="/dashboard" id="dashboardLink">Dashboard</a>
+                    <a href="#" id="detailLogoutBtn">Logout</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- MAIN CONTENT -->
+        <div class="detail-container">
+
+            <!-- Back Link -->
+            <a href="/dashboard" class="back-link" id="backBtn">← Back to Dashboard</a>
+
+            <!-- Loading State -->
+            <div id="loadingState" class="detail-loading">
+                <div class="spinner"></div>
+                <p class="loading-text">Loading complaint details...</p>
+            </div>
+
+            <!-- Error State -->
+            <div id="errorState" class="detail-error" style="display:none">
+                <div class="error-icon">🔍</div>
+                <h2>Complaint Not Found</h2>
+                <p id="errorMessage">The complaint you're looking for doesn't exist or you don't have permission to view it.</p>
+                <a href="/dashboard" class="btn btn-primary">Go to Dashboard</a>
+            </div>
+
+            <!-- Complaint Content (hidden until loaded) -->
+            <div id="complaintContent" style="display:none">
+
+                <!-- Header Card -->
+                <div class="detail-header-card">
+                    <div class="detail-header-top" id="headerTop">
+                        <div class="ref-row">
+                            <span class="ref-number" id="refNumber">CMP-2025-XXXX</span>
+                            <div class="badge-row">
+                                <span class="priority-badge" id="priorityBadge">medium</span>
+                                <span class="status-badge" id="statusBadge">submitted</span>
+                            </div>
+                        </div>
+                        <h1 id="complaintSubject">Loading...</h1>
+                    </div>
+
+                    <!-- Meta Information -->
+                    <div class="detail-meta">
+                        <div class="meta-item">
+                            <span class="meta-label">Category</span>
+                            <span class="meta-value" id="metaCategory">—</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Submitted On</span>
+                            <span class="meta-value" id="metaDate">—</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Last Updated</span>
+                            <span class="meta-value" id="metaUpdated">—</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Assigned To</span>
+                            <span class="meta-value" id="metaAssigned">Not yet assigned</span>
+                        </div>
+                        <div class="meta-item" id="metaResolvedRow" style="display:none">
+                            <span class="meta-label">Resolved On</span>
+                            <span class="meta-value" id="metaResolved">—</span>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="detail-description">
+                        <div class="desc-label">Description</div>
+                        <div class="desc-text" id="complaintDescription">Loading...</div>
+                    </div>
+
+                    <!-- Admin Feedback (if exists) -->
+                    <div class="admin-feedback-box" id="feedbackBox" style="display:none">
+                        <div class="fb-label">✅ Admin Resolution / Feedback</div>
+                        <div class="fb-text" id="feedbackText"></div>
+                    </div>
+                </div>
+
+                <!-- Progress Tracker -->
+                <div class="detail-progress">
+                    <h3>📍 Complaint Progress</h3>
+                    <div class="tracker" id="progressTracker">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <!-- Responses Timeline -->
+                <div class="responses-card">
+                    <div class="responses-header">
+                        <h3>💬 Conversation <span id="responseCount" style="color:var(--gray);font-weight:400">(0)</span></h3>
+                    </div>
+
+                    <div class="responses-body" id="responsesBody">
+                        <!-- Filled by JS -->
+                    </div>
+
+                    <!-- Add Response Form (only for open complaints) -->
+                    <div class="add-response-form" id="addResponseForm" style="display:none">
+                        <h4>Add Your Response</h4>
+                        <div class="alert alert-error" id="respAlert" style="display:none"></div>
+                        <textarea id="newResponseText" placeholder="Type your response here... (minimum 5 characters)"></textarea>
+                        <div class="form-actions">
+                            <button class="btn btn-primary btn-sm" id="sendResponseBtn">
+                                Send Response
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="footer" style="margin-top:40px">
+            <div class="container">
+                <div class="footer-bottom" style="border:none;padding:0">
+                    <p>&copy; 2025 University of Professional Studies, Accra. E-Complaint Management System.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // ===== COMPLAINT DETAIL PAGE LOGIC =====
+        const API_BASE = '/api/student';
+        let complaintId = null;
+        let currentUser = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Auth check
+            const token = localStorage.getItem('token');
+            currentUser = JSON.parse(localStorage.getItem('user') || 'null');
+
+            if (!token || !currentUser) {
+                window.location.href = '/login';
+                return;
+            }
+
+            // Determine if student or admin
+            if (['super_admin', 'admin', 'moderator'].includes(currentUser.role)) {
+                document.getElementById('dashboardLink').href = '/admin';
+                document.getElementById('backBtn').href = '/admin';
+            }
+
+            // Get complaint ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            complaintId = urlParams.get('id');
+
+            if (!complaintId) {
+                showError('No complaint ID provided. Please access this page from your dashboard.');
+                return;
+            }
+
+            loadComplaintDetail(complaintId);
+
+            // Event Listeners
+            document.getElementById('sendResponseBtn').addEventListener('click', sendResponse);
+            document.getElementById('detailLogoutBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.clear();
+                window.location.href = '/login';
+            });
+
+            // Enter key in textarea
+            document.getElementById('newResponseText').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && e.ctrlKey) {
+                    sendResponse();
+                }
+            });
+        });
+
+        function getHeaders() {
+            return {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            };
+        }
+
+        async function loadComplaintDetail(id) {
+            const loadingEl = document.getElementById('loadingState');
+            const errorEl = document.getElementById('errorState');
+            const contentEl = document.getElementById('complaintContent');
+
+            loadingEl.style.display = 'block';
+            errorEl.style.display = 'none';
+            contentEl.style.display = 'none';
+
+            try {
+                // Choose API based on user role
+                const apiPath = ['super_admin', 'admin', 'moderator'].includes(currentUser.role)
+                    ? `/api/admin/complaints/${id}`
+                    : `/api/student/complaints/${id}`;
+
+                const res = await fetch(apiPath, { headers: getHeaders() });
+                const data = await res.json();
+
+                if (!res.ok || !data.success) {
+                    showError(data.message || 'Unable to load complaint details.');
+                    return;
+                }
+
+                renderComplaint(data.complaint, data.responses);
+
+            } catch (err) {
+                console.error('Load error:', err);
+                showError('Network error. Please check your connection and try again.');
+            }
+        }
+
+        function renderComplaint(complaint, responses) {
+            const c = complaint;
+
+            // Hide loading, show content
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('complaintContent').style.display = 'block';
+
+            // Header
+            document.getElementById('headerTop').className = `detail-header-top header-${c.status}`;
+            document.getElementById('refNumber').textContent = c.reference_number;
+            document.getElementById('complaintSubject').textContent = c.subject;
+
+            // Priority badge
+            const priorityEl = document.getElementById('priorityBadge');
+            priorityEl.textContent = c.priority.toUpperCase();
+            priorityEl.className = `priority-badge priority-${c.priority}`;
+
+            // Status badge
+            const statusEl = document.getElementById('statusBadge');
+            statusEl.textContent = c.status.replace('_', ' ');
+            statusEl.className = `status-badge status-${c.status}`;
+
+            // Meta
+            document.getElementById('metaCategory').textContent = `${c.category_icon || ''} ${c.category_name}`;
+            document.getElementById('metaDate').textContent = formatDateTime(c.created_at);
+            document.getElementById('metaUpdated').textContent = formatDateTime(c.updated_at);
+            document.getElementById('metaAssigned').textContent = c.assigned_admin_name || 'Not yet assigned';
+
+            if (c.resolved_at) {
+                document.getElementById('metaResolvedRow').style.display = 'flex';
+                document.getElementById('metaResolved').textContent = formatDateTime(c.resolved_at);
+            }
+
+            // Description
+            document.getElementById('complaintDescription').textContent = c.description;
+
+            // Admin Feedback
+            if (c.admin_feedback) {
+                document.getElementById('feedbackBox').style.display = 'block';
+                document.getElementById('feedbackText').textContent = c.admin_feedback;
+            }
+
+            // Progress Tracker
+            renderProgressTracker(c.status, c);
+
+            // Responses
+            renderResponses(responses);
+
+            // Show/hide response form
+            const canRespond = c.status !== 'resolved' && c.status !== 'rejected';
+            document.getElementById('addResponseForm').style.display = canRespond ? 'block' : 'none';
+
+            // Update page title
+            document.title = `${c.reference_number} — UPSA E-Complaint`;
+        }
+
+        function renderProgressTracker(currentStatus, complaint) {
+            const container = document.getElementById('progressTracker');
+
+            if (currentStatus === 'rejected') {
+                // Special flow for rejected
+                const steps = [
+                    { key: 'submitted', label: 'Submitted', icon: '📝' },
+                    { key: 'under_review', label: 'Reviewed', icon: '🔍' },
+                    { key: 'rejected', label: 'Rejected', icon: '❌' }
+                ];
+
+                container.innerHTML = steps.map((step, i) => {
+                    let cls = '';
+                    if (step.key === 'rejected') cls = 'rejected';
+                    else if (step.key === 'submitted') cls = 'completed';
+                    else if (step.key === 'under_review') cls = 'completed';
+
+                    return `
+                        <div class="tracker-step ${cls}">
+                            <div class="circle">${cls === 'completed' ? '✓' : step.icon}</div>
+                            <div>
+                                <div class="step-name">${step.label}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                return;
+            }
+
+            const steps = [
+                { key: 'submitted', label: 'Submitted', icon: '📝' },
+                { key: 'under_review', label: 'Under Review', icon: '🔍' },
+                { key: 'in_progress', label: 'In Progress', icon: '⚙️' },
+                { key: 'resolved', label: 'Resolved', icon: '✅' }
+            ];
+
+            const currentIdx = steps.findIndex(s => s.key === currentStatus);
+
+            container.innerHTML = steps.map((step, i) => {
+                let cls = '';
+                if (i < currentIdx) cls = 'completed';
+                else if (i === currentIdx) cls = 'active';
+
+                return `
+                    <div class="tracker-step ${cls}">
+                        <div class="circle">${cls === 'completed' ? '✓' : step.icon}</div>
+                        <div>
+                            <div class="step-name">${step.label}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderResponses(responses) {
+            document.getElementById('responseCount').textContent = `(${responses.length})`;
+            const container = document.getElementById('responsesBody');
+
+            if (responses.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state" style="padding:40px 20px">
+                        <div class="empty-icon">💬</div>
+                        <h3>No Responses Yet</h3>
+                        <p>This complaint hasn't received any responses. An administrator will respond soon.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="timeline">
+                    ${responses.map(r => `
+                        <div class="timeline-item">
+                            <div class="timeline-dot ${r.responder_type === 'admin' ? 'admin-dot' : 'student-dot'}">
+                                ${r.responder_type === 'admin' ? '🛡' : '👤'}
+                            </div>
+                            <div class="timeline-header">
+                                <div>
+                                    <span class="responder">${escapeHtml(r.responder_name || 'Unknown')}</span>
+                                    <span class="responder-tag ${r.responder_type === 'admin' ? 'tag-admin' : 'tag-student'}">
+                                        ${r.responder_type}
+                                    </span>
+                                </div>
+                                <span class="resp-time">${formatDateTime(r.created_at)}</span>
+                            </div>
+                            <div class="timeline-message">${escapeHtml(r.message)}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        async function sendResponse() {
+            const textarea = document.getElementById('newResponseText');
+            const message = textarea.value.trim();
+            const alertEl = document.getElementById('respAlert');
+            const btn = document.getElementById('sendResponseBtn');
+
+            // Validation
+            if (!message) {
+                showRespAlert('Please enter a response message.');
+                return;
+            }
+
+            if (message.length < 5) {
+                showRespAlert('Response must be at least 5 characters long.');
+                return;
+            }
+
+            // Disable button
+            btn.disabled = true;
+            btn.textContent = 'Sending...';
+            alertEl.style.display = 'none';
+
+            try {
+                const apiPath = ['super_admin', 'admin', 'moderator'].includes(currentUser.role)
+                    ? `/api/admin/complaints/${complaintId}/respond`
+                    : `/api/student/complaints/${complaintId}/respond`;
+
+                const res = await fetch(apiPath, {
+                    method: 'POST',
+                    headers: getHeaders(),
+                    body: JSON.stringify({ message })
+                });
+
+                const data = await res.json();
+
+                if (data.success) {
+                    textarea.value = '';
+                    alertEl.style.display = 'none';
+                    // Reload complaint to show new response
+                    loadComplaintDetail(complaintId);
+                } else {
+                    showRespAlert(data.message || 'Failed to send response.');
+                }
+            } catch (err) {
+                console.error('Response error:', err);
+                showRespAlert('Network error. Please try again.');
+            }
+
+            btn.disabled = false;
+            btn.textContent = 'Send Response';
+        }
+
+        // ===== UTILITY FUNCTIONS =====
+
+        function showError(message) {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('complaintContent').style.display = 'none';
+            document.getElementById('errorState').style.display = 'block';
+            document.getElementById('errorMessage').textContent = message;
+        }
+
+        function showRespAlert(message) {
+            const el = document.getElementById('respAlert');
+            el.textContent = message;
+            el.style.display = 'block';
+        }
+
+        function formatDateTime(dateStr) {
+            if (!dateStr) return '—';
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-GB', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric'
+            }) + ' at ' + date.toLocaleTimeString('en-GB', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>

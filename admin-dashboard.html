@@ -1,0 +1,197 @@
+<!-- public/admin-dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard — UPSA E-Complaint</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-sm">UPSA <span>Admin</span></div>
+            </div>
+            <div class="user-info">
+                <div class="user-name" id="adminName">Admin</div>
+                <div class="user-role" id="adminDept">Department</div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="active" data-page="overview"><span class="nav-icon">📊</span> Dashboard</a>
+                <a href="#" data-page="complaints"><span class="nav-icon">📋</span> All Complaints</a>
+                <a href="#" data-page="students"><span class="nav-icon">👥</span> Students</a>
+                <a href="#" data-page="notifications"><span class="nav-icon">🔔</span> Notifications</a>
+                <div class="nav-divider"></div>
+                <a href="#" id="adminLogoutBtn"><span class="nav-icon">🚪</span> Logout</a>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <div class="topbar">
+                <div style="display:flex;align-items:center;gap:12px">
+                    <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+                    <div class="page-title">
+                        <h2 id="pageTitle">Dashboard</h2>
+                        <p id="pageSubtitle">Admin overview</p>
+                    </div>
+                </div>
+                <div class="topbar-actions">
+                    <button class="notif-btn">🔔</button>
+                    <div class="user-avatar" id="adminAvatar">A</div>
+                </div>
+            </div>
+
+            <div class="content-area">
+                <!-- OVERVIEW -->
+                <div class="page-content" id="page-overview">
+                    <div class="dash-stats" id="adminDashStats"></div>
+
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+                        <div class="card">
+                            <div class="card-header"><h3>Complaints by Category</h3></div>
+                            <div class="card-body" id="categoryStats"></div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header"><h3>Recent Complaints</h3></div>
+                            <div class="card-body no-pad">
+                                <div class="table-container">
+                                    <table>
+                                        <thead><tr><th>Ref</th><th>Subject</th><th>Status</th><th>Date</th></tr></thead>
+                                        <tbody id="adminRecentComplaints"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ALL COMPLAINTS -->
+                <div class="page-content" id="page-complaints" style="display:none">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>All Complaints</h3>
+                            <div class="filters">
+                                <input type="text" id="adminSearch" placeholder="Search ref, subject...">
+                                <select id="adminFilterStatus">
+                                    <option value="">All Status</option>
+                                    <option value="submitted">Submitted</option>
+                                    <option value="under_review">Under Review</option>
+                                    <option value="in_progress">In Progress</option>
+                                    <option value="resolved">Resolved</option>
+                                    <option value="rejected">Rejected</option>
+                                </select>
+                                <select id="adminFilterPriority">
+                                    <option value="">All Priority</option>
+                                    <option value="low">Low</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high">High</option>
+                                    <option value="urgent">Urgent</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-body no-pad">
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr><th>Reference</th><th>Student</th><th>Subject</th><th>Category</th><th>Priority</th><th>Status</th><th>Date</th><th>Actions</th></tr>
+                                    </thead>
+                                    <tbody id="allComplaintsTable">
+                                        <tr><td colspan="8"><div class="spinner"></div></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COMPLAINT DETAIL (Admin) -->
+                <div class="page-content" id="page-complaint-detail" style="display:none">
+                    <div id="adminComplaintDetail"></div>
+                </div>
+
+                <!-- STUDENTS -->
+                <div class="page-content" id="page-students" style="display:none">
+                    <div class="card">
+                        <div class="card-header"><h3>Registered Students</h3></div>
+                        <div class="card-body no-pad">
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr><th>Student ID</th><th>Name</th><th>Email</th><th>Programme</th><th>Level</th><th>Complaints</th><th>Status</th></tr>
+                                    </thead>
+                                    <tbody id="studentsTable">
+                                        <tr><td colspan="7"><div class="spinner"></div></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NOTIFICATIONS -->
+                <div class="page-content" id="page-notifications" style="display:none">
+                    <div class="card">
+                        <div class="card-header"><h3>🔔 Notifications</h3></div>
+                        <div class="card-body" id="adminNotifications"><div class="spinner"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STATUS UPDATE MODAL -->
+    <div class="modal-overlay" id="statusModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Update Complaint Status</h3>
+                <button class="modal-close" onclick="closeModal('statusModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>New Status</label>
+                    <select id="newStatus">
+                        <option value="submitted">Submitted</option>
+                        <option value="under_review">Under Review</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="resolved">Resolved</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Feedback / Notes</label>
+                    <textarea id="statusFeedback" rows="4" placeholder="Add a message to the student (optional)..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline btn-sm" onclick="closeModal('statusModal')">Cancel</button>
+                <button class="btn btn-primary btn-sm" id="updateStatusBtn">Update Status</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- RESPOND MODAL -->
+    <div class="modal-overlay" id="adminRespondModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Send Response</h3>
+                <button class="modal-close" onclick="closeModal('adminRespondModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Response Message</label>
+                    <textarea id="adminResponseMsg" rows="4" placeholder="Type your response to the student..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline btn-sm" onclick="closeModal('adminRespondModal')">Cancel</button>
+                <button class="btn btn-primary btn-sm" id="adminSendResponseBtn">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/admin.js"></script>
+</body>
+</html>
